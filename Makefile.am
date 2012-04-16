@@ -1,10 +1,21 @@
 ## Process this file with automake to produce Makefile.in
 
+GITHUB_USER = Themroc
+
 SUBDIRS = src
 
-ACLOCAL_AMFLAGS = -I .
+EXTRA_DIST =			\
+	lrexlib/*		\
+	luaposix/*		\
+	rockspec.tpl.in		\
+	rockspec.tpl
+#	$(HTML)			\
+#	$(LUATESTS)		\
+#	$(LUNITTESTS)		
 
-GITHUB_USER = Themroc
+DISTCLEANFILES = rockspec
+
+ACLOCAL_AMFLAGS = -I m4
 
 #ChangeLog:
 #	git2cl > ChangeLog
@@ -21,32 +32,45 @@ LUA_ENV = LUA_INIT= LUA_PATH="$(abs_srcdir)/?.lua;$(LUA_PATH)" LUA_CPATH="$(abs_
 #LUNITTESTS=				\
 #	$(srcdir)/tests-fcntl.lua
 
-dist-7z: distdir
-	tardir=$(distdir) && $(am__tar) | P7Z_OPT=$${P7Z_OPT--e} 7z a -si -mx=7 $(distdir).tar.7z
+DEV_CLEAN = \
+	aclocal.m4 m4/libtool.m4 m4/lt*.m4 \
+	libtool ltmain.sh install-sh depcomp missing mkinstalldirs \
+	config.cache config.guess config.h.in config.log config.status config.sub configure compile \
+	Makefile.in src/Makefile.in *~ src/*~
+
+DEV_AUTOGEN = \
+	rm -f config.cache; \
+	aclocal -I m4; autoconf -I m4; autoheader; libtoolize; automake -a
+
+dev-distdir: distdir
+	-chmod -R a+r $(distdir)
+	pushd .; cd $(distdir); \
+	rm -f $(DEV_CLEAN); \
+	rm -rf autom4te.cache; \
+	echo -e "#!/bin/sh\n$(DEV_AUTOGEN)" >autogen.sh; \
+	chmod a+x autogen.sh; \
+	popd
+
+dev-dist-gzip: dev-distdir
+	tardir=$(distdir) && $(am__tar) | GZIP=$(GZIP_ENV) gzip -c >$(distdir)-dev.tar.gz
 	$(am__remove_distdir)
 
+dev-dist-xz: dev-distdir
+	tardir=$(distdir) && $(am__tar) | XZ_OPT=$${XZ_OPT--e} xz -c >$(distdir)-dev.tar.xz
+	$(am__remove_distdir)
 
-ROCKSPEC = $(PACKAGE)-$(VERSION)-$(RS_VER_POSTFIX).rockspec
+devclean: distclean
+	rm -f $(DEV_CLEAN) *.tar.gz *.tar.xz; \
+	rm -rf autom4te.cache; \
+	echo -e "#!/bin/sh\n$(DEV_AUTOGEN)" >autogen.sh; \
+	chmod a+x autogen.sh
 
-$(ROCKSPEC): dist
-	cat rockspec | sed -e 's/@MD5@/'`$(MD5SUM) $(distdir).tar.gz | cut -d " " -f 1`'/g' | sed -e 's/@ARC_EXT@/tar.gz/g' > $(ROCKSPEC)
 
-$(ROCKSPEC)-7z: dist-7z
-	cat rockspec | sed -e 's/@MD5@/'`$(MD5SUM) $(distdir).tar.7z | cut -d " " -f 1`'/g' | sed -e 's/@ARC_EXT@/tar.7z/g' > $(ROCKSPEC)
+ROCKSPEC_GZ = $(PACKAGE)-$(VERSION)-$(RS_VER_POSTFIX).rockspec
 
-rockspec: $(ROCKSPEC)
+$(ROCKSPEC_GZ): rockspec.tpl dev-dist-gzip
+	cat rockspec.tpl | sed -e 's/@MD5@/'`$(MD5SUM) $(distdir)-dev.tar.gz | cut -d " " -f 1`'/g' | sed -e 's/.tar.gz/-dev.tar.gz/g' > $(ROCKSPEC_GZ)
 
-rockspec-7z: $(ROCKSPEC)-7z
-
-EXTRA_DIST =			\
-	lrexlib/*		\
-	luaposix/*		\
-	rockspec.in
-#	$(HTML)			\
-#	$(LUATESTS)		\
-#	$(LUNITTESTS)		
-
-DISTCLEANFILES = rockspec
 
 check-local:
 	ls $(LUATESTS) | $(LUA_ENV) xargs -L 1 $(LUA)
@@ -58,3 +82,19 @@ release: distcheck $(ROCKSPEC)
 	woger lua,github package=$(PACKAGE) package_name=$(PACKAGE_NAME) version=$(VERSION) description="`LUA_INIT= LUA_PATH='$(abs_srcdir)/?.rockspec.in' $(LUA) -l$(PACKAGE) -e 'print (description.summary)'`" notes=release-notes-$(VERSION) dist_type="tar.gz" github_user=$(GITHUB_USER) && \
 	git tag -a -m "Release tag" v$(VERSION) && \
 	git push --tags
+
+dev-dist: dev-dist-xz
+
+ROCKSPEC = $(ROCKSPEC_GZ)
+
+rockspec: $(ROCKSPEC)
+
+# not yet...
+#rock: rockspec
+#	luarocks pack $(ROCKSPEC)
+
+rock-inst: rockspec
+	luarocks make $(ROCKSPEC)
+
+rock-uninst:
+	luarocks remove $(PACKAGE)

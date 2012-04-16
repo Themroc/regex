@@ -19,3 +19,8 @@ using some autoconf-stuff from
 
 
 Thanx a million!
+
+
+Targets:
+make dev-dist		# create a .tar.xz file
+make rockspec		# create a .rockspec file

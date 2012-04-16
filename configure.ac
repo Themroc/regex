@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script
 AC_INIT(regex, 2.6.0)
 RS_VER_POSTFIX=1
 AC_CONFIG_AUX_DIR([.])
-AC_CONFIG_MACRO_DIR([.])
+AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([-Wall -Werror std-options])
 
@@ -48,5 +48,5 @@ AX_WITH_PROG([MD5SUM], [md5sum], [false])
 
 dnl Generate output files
 AC_CONFIG_HEADER(config.h)
-AC_CONFIG_FILES([Makefile src/Makefile rockspec])
+AC_CONFIG_FILES([Makefile src/Makefile rockspec.tpl])
 AC_OUTPUT
