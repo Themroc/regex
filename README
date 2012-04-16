@@ -1,0 +1,21 @@
+This is a luarock of the "posix" part of
+
+
+Lrexlib 2.6
+===========
+
+|  by Reuben Thomas (rrt@sc3d.org)
+|  and Shmuel Zeigerman (shmuz@013net.net) [maintainer]
+
+
+using some autoconf-stuff from
+
+
+                               luaposix
+                               --------
+
+                     Reuben Thomas <rrt@sc3d.org>
+                http://luaforge.net/projects/luaposix
+
+
+Thanx a million!

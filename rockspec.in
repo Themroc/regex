@@ -1,0 +1,24 @@
+package="@PACKAGE@"
+version="@VERSION@-@RS_VER_POSTFIX@"
+source = {
+  url = "https://github.com/downloads/Themroc/@PACKAGE@/@PACKAGE@-@VERSION@.@ARC_EXT@",
+  md5 = "@MD5@",
+  dir = "@PACKAGE@-@VERSION@"
+}
+description = {
+  summary = "Lua bindings for POSIX regular expressions",
+  detailed = [[
+      A library binding POSIX regular expression APIs.
+      POSIX is the IEEE Portable Operating System Interface standard.
+   ]],
+  homepage = "http://github.com/Themroc/@PACKAGE@/",
+  license = "MIT/X11"
+}
+dependencies = {
+  "lua >= 5.1"
+}
+build = {
+  type = "command",
+  build_command = "LUA=$(LUA) CPPFLAGS=-I$(LUA_INCDIR) ./configure --prefix=$(PREFIX) --libdir=$(LIBDIR) --datadir=$(LUADIR)",
+  install_command = "make install"
+}
