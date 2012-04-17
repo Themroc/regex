@@ -5,7 +5,7 @@ show-funcs:
 	@fgrep '/**' lposix.c | cut -f2 -d/ | tr -d '*' | sort
 
 TRG    = regex
-DEFS   = -DREX_OPENLIB=luaopen_$(TRG) -DREX_LIBNAME=\"$(TRG)\"
+#DEFS   = -DREX_OPENLIB=luaopen_$(TRG) -DREX_LIBNAME=\"$(TRG)\"
 
 AM_CPPFLAGS = $(LUA_INCLUDE)
 AM_CFLAGS = $(WERROR_CFLAGS) $(WARN_CFLAGS) $(DEFS)

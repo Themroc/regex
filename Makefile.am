@@ -45,8 +45,10 @@ DEV_AUTOGEN = \
 	aclocal -I m4; autoconf -I m4; autoheader; libtoolize; automake -a
 
 DEV_CONFIG_H = \
-	echo '\#define PACKAGE_NAME "$(PACKAGE)"'; \
-	echo '\#define PACKAGE_VERSION "$(VERSION)"'
+	echo '\#define PACKAGE_NAME $(PACKAGE)'; \
+	echo '\#define PACKAGE_VERSION $(VERSION)'; \
+	echo '\#define REX_LIBNAME "$(PACKAGE)"'; \
+	echo '\#define REX_OPENLIB luaopen_$(PACKAGE)'
 
 distclean-local:
 	($(DEV_CONFIG_H)) > config.h

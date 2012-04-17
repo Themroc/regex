@@ -25,6 +25,9 @@ AC_SUBST([shrext])
 AC_SUBST(LIBTOOL_DEPS)
 AC_SUBST(RS_VER_POSTFIX)
 
+AC_DEFINE_UNQUOTED([REX_LIBNAME], ["$PACKAGE"], [for lposix.c])
+AC_DEFINE_UNQUOTED([REX_OPENLIB], [luaopen_$PACKAGE], [for lposix.c])
+
 dnl Check for header files
 AC_HEADER_STDC
 
