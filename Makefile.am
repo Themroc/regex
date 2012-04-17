@@ -44,6 +44,13 @@ DEV_AUTOGEN = \
 	rm -f config.cache; \
 	aclocal -I m4; autoconf -I m4; autoheader; libtoolize; automake -a
 
+DEV_CONFIG_H = \
+	echo '\#define PACKAGE_NAME "$(PACKAGE)"'; \
+	echo '\#define PACKAGE_VERSION "$(VERSION)"'
+
+distclean-local:
+	($(DEV_CONFIG_H)) > config.h
+
 dev-distdir: distdir
 	-chmod -R a+r $(distdir)
 	pushd .; cd $(distdir); \
