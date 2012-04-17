@@ -1,0 +1,34 @@
+package="@PACKAGE@"
+version="@VERSION@-@RS_VER_POSTFIX@"
+source = {
+  url = "https://github.com/downloads/Themroc/@PACKAGE@/@PACKAGE@-@VERSION@.tar.gz",
+  md5 = "@MD5@",
+  dir = "@PACKAGE@-@VERSION@"
+}
+description = {
+  summary = "Lua bindings for POSIX regular expressions",
+  detailed = [[
+      A library binding POSIX regular expression APIs.
+      POSIX is the IEEE Portable Operating System Interface standard.
+   ]],
+  homepage = "http://github.com/Themroc/@PACKAGE@/",
+  license = "MIT/X11"
+}
+dependencies = {
+  "lua >= 5.1"
+}
+external_dependencies = {
+   LIBREGEX = {
+      header = "regex.h"
+   }
+}
+build = {
+   type = "builtin",
+   modules = {
+      regex = {
+         sources = {"src/lposix.c", "src/common.c"},
+         incdirs = {"$(LIBREGEX_INCDIR)"},
+         libdirs = {"$(LIBREGEX_LIBDIR)"}
+      }
+   }
+}
