@@ -55,3 +55,11 @@ The manual:
 
 Just replace 'rex.' by 'regex.', 'rex_posix' by 'regex' and ignore the PCRE,
 GNU, Oniguruma and TRE sections.
+
+-------------------------------------------------------------------------------
+
+Oh my! Somehow, i completely overlooked
+
+http://luarocks.org/repositories/rocks/#lrexlib-posix
+
+which already does the same...

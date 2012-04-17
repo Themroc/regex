@@ -4,8 +4,8 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include "config.h"
 #include "lua.h"
-#include "../config.h"
 
 #if LUA_VERSION_NUM > 501
   int luaL_typerror (lua_State *L, int narg, const char *tname);

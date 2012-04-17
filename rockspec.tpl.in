@@ -8,8 +8,8 @@ source = {
 description = {
   summary = "Lua bindings for POSIX regular expressions",
   detailed = [[
-      A library binding POSIX regular expression APIs.
-      POSIX is the IEEE Portable Operating System Interface standard.
+      Another library binding POSIX regular expression APIs. Also
+      from Lrexlib, but version 2.6.0 (and better, of course).
    ]],
   homepage = "http://github.com/Themroc/@PACKAGE@/",
   license = "MIT/X11"
@@ -26,7 +26,7 @@ build = {
    type = "builtin",
    modules = {
       regex = {
-         sources = {"src/lposix.c", "src/common.c"},
+         sources = {"common.c", "src/lposix.c"},
          incdirs = {"$(LIBREGEX_INCDIR)"},
          libdirs = {"$(LIBREGEX_LIBDIR)"}
       }

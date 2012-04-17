@@ -12,7 +12,7 @@ AM_CFLAGS = $(WERROR_CFLAGS) $(WARN_CFLAGS) $(DEFS)
 
 lib_LTLIBRARIES = regex.la $(WANTEDLIBS)
 
-regex_la_SOURCES = lposix.c algo.h common.h common.c
+regex_la_SOURCES = lposix.c ../algo.h ../common.h ../common.c
 regex_la_CFLAGS = $(POSIX_EXTRA_CFLAGS)
 regex_la_LDFLAGS = -module -avoid-version $(POSIX_EXTRA_LDFLAGS)
 

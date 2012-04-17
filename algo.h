@@ -691,6 +691,6 @@ static void alg_register (lua_State *L, const luaL_Reg *r_methods,
   lua_pushvalue(L, -1);
   lua_setglobal(L, REX_LIBNAME);
 #endif
-  lua_pushfstring (L, REX_LIBNAME" "PACKAGE_VERSION);
+  lua_pushfstring (L, REX_VERSION);
   lua_setfield (L, -2, "_VERSION");
 }

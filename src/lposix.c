@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include "lua.h"
 #include "lauxlib.h"
-#include "common.h"
+#include "../common.h"
 
 #ifndef REX_POSIX_INCLUDE
 #  include <regex.h>
@@ -78,7 +78,7 @@ typedef struct {
 
 #define TUserdata TPosix
 
-#include "algo.h"
+#include "../algo.h"
 
 /*  Functions
  ******************************************************************************
