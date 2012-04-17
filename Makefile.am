@@ -7,8 +7,8 @@ SUBDIRS = src
 EXTRA_DIST =			\
 	lrexlib/*		\
 	luaposix/*		\
-	rockspec.tpl.in		\
-	rockspec.tpl
+	config.h		\
+	rockspec.tpl.in
 #	$(HTML)			\
 #	$(LUATESTS)		\
 #	$(LUNITTESTS)		
@@ -51,6 +51,12 @@ DEV_CONFIG_H = \
 distclean-local:
 	($(DEV_CONFIG_H)) > config.h
 
+devclean: distclean
+	rm -f $(DEV_CLEAN) *.tar.gz *.tar.xz *.rock *.rockspec; \
+	rm -rf autom4te.cache; \
+	echo -e "#!/bin/sh\n$(DEV_AUTOGEN)" >autogen.sh; \
+	chmod a+x autogen.sh
+
 dev-distdir: distdir
 	-chmod -R a+r $(distdir)
 	pushd .; cd $(distdir); \
@@ -68,18 +74,14 @@ dev-dist-xz: dev-distdir
 	tardir=$(distdir) && $(am__tar) | XZ_OPT=$${XZ_OPT--e} xz -c >$(distdir)-dev.tar.xz
 	$(am__remove_distdir)
 
-devclean: distclean
-	rm -f $(DEV_CLEAN) *.tar.gz *.tar.xz; \
-	rm -rf autom4te.cache; \
-	echo -e "#!/bin/sh\n$(DEV_AUTOGEN)" >autogen.sh; \
-	chmod a+x autogen.sh
-
 
 ROCKSPEC_GZ = $(PACKAGE)-$(VERSION)-$(RS_VER_POSTFIX).rockspec
 
 $(ROCKSPEC_GZ): rockspec.tpl dev-dist-gzip
 	cat rockspec.tpl | sed -e 's/@MD5@/'`$(MD5SUM) $(distdir)-dev.tar.gz | cut -d " " -f 1`'/g' | sed -e 's/.tar.gz/-dev.tar.gz/g' > $(ROCKSPEC_GZ)
 
+src-rock: rockspec
+	zip $(PACKAGE)-$(VERSION)-$(RS_VER_POSTFIX).src.rock $(ROCKSPEC) $(distdir)-dev.tar.gz
 
 check-local:
 	ls $(LUATESTS) | $(LUA_ENV) xargs -L 1 $(LUA)
