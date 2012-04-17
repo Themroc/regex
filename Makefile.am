@@ -17,6 +17,8 @@ DISTCLEANFILES = rockspec
 
 ACLOCAL_AMFLAGS = -I m4
 
+rockdir = $(PACKAGE)-$(VERSION).rock
+
 #ChangeLog:
 #	git2cl > ChangeLog
 
@@ -89,9 +91,6 @@ ROCKSPEC = $(ROCKSPEC_GZ)
 
 rockspec: $(ROCKSPEC)
 
-# not yet...
-#rock: rockspec
-#	luarocks pack $(ROCKSPEC)
 
 rock-inst: rockspec
 	luarocks make $(ROCKSPEC)
