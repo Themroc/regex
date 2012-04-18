@@ -46,8 +46,9 @@ DEV_AUTOGEN = \
 
 DEV_CONFIG_H = \
 	echo '\#define PACKAGE_NAME $(PACKAGE)'; \
-	echo '\#define PACKAGE_VERSION $(VERSION)'; \
+	echo '\#define PACKAGE_VERSION "$(VERSION)"'; \
 	echo '\#define REX_LIBNAME "$(PACKAGE)"'; \
+	echo '\#define REX_VERSION "$(VERSION)"'; \
 	echo '\#define REX_OPENLIB luaopen_$(PACKAGE)'
 
 distclean-local:
