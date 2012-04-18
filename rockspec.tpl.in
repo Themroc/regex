@@ -9,7 +9,7 @@ description = {
   summary = "Lua bindings for POSIX regular expressions",
   detailed = [[
       Another library binding POSIX regular expression APIs. Also
-      from Lrexlib, but version 2.6.0 (and better, of course).
+      from Lrexlib, but version 2.6.0 (thus supporting lua5.2).
    ]],
   homepage = "http://github.com/Themroc/@PACKAGE@/",
   license = "MIT/X11"

@@ -58,8 +58,8 @@ GNU, Oniguruma and TRE sections.
 
 -------------------------------------------------------------------------------
 
-Oh my! Somehow, i completely overlooked
+Oh my! Somehow, i managed to completely overlook
 
 http://luarocks.org/repositories/rocks/#lrexlib-posix
 
-which already does the same...
+which already does the same... But not for lua5.2, so my one is better. Hooray!
